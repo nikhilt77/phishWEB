@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Manage Lists - Phishing Shield</title>
+  <link rel="stylesheet" href="tailwind.min.css" />
+  <style>
+    body {
+      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
+      width: 400px;
+      height: 500px;
+      overflow: hidden;
+    }
+    .glass-effect {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    .list-container {
+      height: 320px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .list-container::-webkit-scrollbar {
+      width: 3px;
+    }
+    .list-container::-webkit-scrollbar-track {
+      background: rgba(30, 41, 59, 0.2);
+    }
+    .list-container::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, 0.2);
+      border-radius: 3px;
+    }
+    .list-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(56, 189, 248, 0.3);
+    }
+    .domain-item {
+      animation: slideIn 0.2s ease-out;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  </style>
+</head>
+<body class="text-gray-100 antialiased flex flex-col">
+  <!-- Header -->
+  <div class="glass-effect px-4 py-3 flex items-center justify-between shadow-lg">
+    <div class="flex items-center space-x-3">
+      <div class="flex items-center">
+        <svg class="w-5 h-5 mr-2 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <h1 id="listTitle" class="text-lg font-semibold text-white"></h1>
+      </div>
+      <span id="domainCount" class="text-xs px-2 py-1 rounded-full bg-sky-500/10 text-sky-400 font-medium"></span>
+    </div>
+    <button id="closeButton" class="text-gray-400 hover:text-white p-1 rounded-lg hover:bg-gray-800/50 transition-all">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Search & Add -->
+  <div class="p-4 glass-effect border-b border-gray-800">
+    <div class="relative">
+      <input type="text" id="domainInput"
+             class="w-full bg-gray-900/50 border border-gray-700 rounded-lg pl-10 pr-12 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-sky-500/50 focus:ring-1 focus:ring-sky-500/50 transition-all"
+             placeholder="Enter domain to add...">
+      <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 10a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
+      </svg>
+      <button id="addDomainBtn"
+              class="absolute right-2 top-1.5 px-2 py-1 bg-sky-500/20 hover:bg-sky-500/30 text-sky-400 rounded text-sm font-medium transition-all flex items-center">
+        Add
+      </button>
+    </div>
+    <div id="inputError" class="text-xs text-red-400 mt-1 hidden">Please enter a valid domain</div>
+  </div>
+
+  <!-- Domains List -->
+  <div class="flex-1 overflow-hidden">
+    <div class="list-container p-4">
+      <div id="emptyState" class="hidden flex flex-col items-center justify-center h-full text-center">
+        <svg class="w-12 h-12 text-gray-600 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+        </svg>
+        <p class="text-gray-400 text-sm">No domains added yet</p>
+      </div>
+      <ul id="domainList" class="space-y-2"></ul>
+    </div>
+  </div>
+
+  <script src="lists.js"></script>
+</body>
+</html>
